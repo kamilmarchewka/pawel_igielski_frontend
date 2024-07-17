@@ -3,7 +3,7 @@ import React from "react";
 export async function generateStaticParams() {
   const categories = await fetch("http://localhost:1337/api/kategories", {
     headers: {
-      Authorization: `Bearer a14e38320c648b6752890354ebba96fba36c5489b278d61c658ac650a7ab745ff1ec93702b5e374d1a01adc52ce5dd3b71a67aafb8d7725c99a9d9e4317e4603acec9d0d3812a976964f30983416986e2efd9c8ff484c3c126d2673ac1243f182a7f5d7c061ce681aba6c8f47bd32abd48c9defd22c1749d3acff88b95ec9b53`,
+      Authorization: `Bearer b3f3beb56821188ae9e92873f6887010c83d9a46fca52ef01c540cd9ce5f93bd01fb9c21992ab963537277ac67e00f98f53d03c0115256ea26bdda3fb02f6a6e34b71d13822895f2ed8a9569944152b4ad92a9df1b9f950e678effe05bcb6a910a71b89b691c89721ec1fb71b59ac214f214293b0ea86d939d99dfafdd912379`,
     },
   }).then((res) => res.json());
 
