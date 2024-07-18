@@ -1,7 +1,48 @@
 import Gallery from "@/components/Gallery";
 import Image from "next/image";
 
-export default function Home() {
+import { gql } from "@apollo/client";
+import createApolloClient from "../apollo-client";
+
+async function getPhotos() {
+  const client = createApolloClient();
+  const { data } = await client.query({
+    query: gql`
+      query getAllSesjes {
+        sesjes {
+          data {
+            id
+            attributes {
+              nazwa
+              # zdjecia
+              Thumbnail {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+              slug
+              Kategoria {
+                data {
+                  attributes {
+                    nazwa_kategorii
+                    slug
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+  });
+
+  return data;
+}
+
+export default async function Home() {
+  const { sesjes } = await getPhotos();
   return (
     <main className="flex min-h-screen flex-col items-center gap-32 p-24">
       <header className="flex flex-col gap-8 items-start">
@@ -14,7 +55,7 @@ export default function Home() {
           niezrozumiałego dla wielu bytów.
         </p>
       </header>
-      <Gallery />
+      <Gallery sesjes={sesjes} />
     </main>
   );
 }

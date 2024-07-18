@@ -1,40 +1,26 @@
 import React from "react";
 import ImgCard from "./ImgCard";
 
-import { gql } from "@apollo/client";
-import createApolloClient from "../apollo-client";
-
-async function getPhotos() {
-  const client = createApolloClient();
-  const { data } = await client.query({
-    query: gql`
-      query getAllSesjes {
-        sesjes {
-          data {
-            id
-            attributes {
-              nazwa
-              slug
-            }
-          }
-        }
-      }
-    `,
-  });
-
-  return data;
-}
-
-export default async function Gallery() {
-  const { sesjes } = await getPhotos();
-  console.log(sesjes.data);
+export default async function Gallery({ sesjes }: { sesjes: any }) {
   return (
     <section className="grid grid-cols-3 w-full gap-10">
-      {sesjes.data.map(({ attributes }: any) => (
-        <>
-          <ImgCard key={attributes.slug} nazwa={attributes.nazwa} />
-        </>
-      ))}
+      {sesjes.data.map(({ attributes }: any) => {
+        const { nazwa, Thumbnail, slug, Kategoria } = attributes;
+        const thumbnailUrl = Thumbnail.data?.attributes.url;
+        const category = Kategoria.data.attributes.nazwa_kategorii;
+
+        return (
+          <>
+            <ImgCard
+              key={slug}
+              slug={slug}
+              nazwa={nazwa}
+              thumbnail={thumbnailUrl}
+              category={category}
+            />
+          </>
+        );
+      })}
     </section>
   );
 }
